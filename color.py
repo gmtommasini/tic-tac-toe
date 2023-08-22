@@ -1,10 +1,11 @@
 yellow_background = "\x1b[43m"
 gray_foreground = "\x1b[90m"
+blue_foreground = "\x1b[34m"
 reset_color = "\x1b[0m"
 
 
 def yellow_b(text):
-    return yellow_background + str(text) + reset_color
+    return yellow_background + blue_foreground + str(text) + reset_color
 
 
 def gray_f(text):
