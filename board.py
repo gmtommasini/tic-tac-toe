@@ -26,7 +26,7 @@ class Board:
         self.p1_starts: bool = True
         self.p1_plays: bool = True
         self.p1_moves: list = []
-        self.p2_moves: list = []
+        # self.p2_moves: list = []
 
     def clean_board(self):
         self.positions = copy.deepcopy(INITIAL_POSITIONS)
@@ -34,7 +34,7 @@ class Board:
         self.p1_starts = not self.p1_starts  # switches starting player
         self.p1_plays = self.p1_starts
         self.p1_moves: list = []
-        self.p2_moves: list = []
+        # self.p2_moves: list = []
 
     def print_position(self, pos):
         if pos in self.available_positions:
@@ -83,13 +83,13 @@ class Board:
         # No more moves = draw
         if len(self.available_positions) == 0:
             print(len(self.available_positions))
-            return 0
+            return -1
 
         # Save moves
         if player == 'x':
             self.p1_moves.append(position)
-        elif player == 'o':
-            self.p2_moves.append(position)
+        # elif player == 'o':
+        #     self.p2_moves.append(position)
 
         # Alternating player
         self.p1_plays = not self.p1_plays  # alternate turns
