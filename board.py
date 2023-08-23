@@ -1,10 +1,7 @@
 import copy
-from enum import Enum
 from color import yellow_b, gray_f
 
-
 INITIAL_POSITIONS = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
-
 
 POSITIONS = {
     '1': (0, 0),
@@ -26,7 +23,6 @@ class Board:
         self.p1_starts: bool = True
         self.p1_plays: bool = True
         self.p1_moves: list = []
-        # self.p2_moves: list = []
 
     def clean_board(self):
         self.positions = copy.deepcopy(INITIAL_POSITIONS)
@@ -34,7 +30,6 @@ class Board:
         self.p1_starts = not self.p1_starts  # switches starting player
         self.p1_plays = self.p1_starts
         self.p1_moves: list = []
-        # self.p2_moves: list = []
 
     def print_position(self, pos):
         if pos in self.available_positions:
@@ -69,7 +64,7 @@ class Board:
         """
 
         # Invalid play
-        if position not in self.available_positions:
+        if position not in self.available_moves():
             return False
 
         p = POSITIONS[str(position)]
@@ -82,14 +77,11 @@ class Board:
 
         # No more moves = draw
         if len(self.available_positions) == 0:
-            print(len(self.available_positions))
             return -1
 
         # Save moves
         if player == 'x':
             self.p1_moves.append(position)
-        # elif player == 'o':
-        #     self.p2_moves.append(position)
 
         # Alternating player
         self.p1_plays = not self.p1_plays  # alternate turns
