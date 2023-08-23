@@ -17,22 +17,19 @@ class CPU:
     def __init__(self, board: Board):
         self.b = board
         self.number_of_plays = 0
-        # self.played = []
 
     def reset(self):
         self.number_of_plays = 0
-        self.played = []
 
     def make_a_play(self) -> int:
         self.number_of_plays += 1
         # first move
         if self.number_of_plays == 1:
-            if 5 in self.b.available_positions:
+            if 5 in self.b.available_moves():
                 return 5
             else:
                 # Any of the corners will do.
                 return random.choice(CORNERS)
-            # TODO MORE
 
         # nth move (if p1 has 2 places in same row/column)
         if my_win_cond := self.check_win_condition('o'):
@@ -40,15 +37,13 @@ class CPU:
         if human_win_condition := self.check_win_condition('x'):
             return human_win_condition
 
-        # nth move (if p1 has 2 corners - AI must play a SIDE)
         if self.number_of_plays == 2:
+            # 2nd move if p1 has 2 corners - AI must play a SIDE)
             if sorted(self.b.p1_moves) in [[1, 9], [3, 7]]:
                 return random.choice(SIDES)
 
         # second move (if IA started or person played weirdly)
-        if self.number_of_plays == 2:
             p1_move = self.b.p1_moves[-1]
-
             # AI started middle and P1 played one side
             # P1 is DOOMED!!!
             if not self.b.p1_starts and p1_move in SIDES:
@@ -62,6 +57,7 @@ class CPU:
                 elif p1_move == 8:
                     return random.choice([1, 3])
 
+            # P1 didn't play wrong
             if p1_move == 1:
                 return random.choice([3, 7])
             elif p1_move == 3:
@@ -76,13 +72,17 @@ class CPU:
         # Plays a random side
         random.shuffle(SIDES)
         for pos in SIDES:
-            if pos in self.b.available_positions:
+            if pos in self.b.available_moves():
                 return pos
 
+        if len(self.b.available_moves()) == 1:
+            return self.b.available_moves()[0]
+
+        # TODO: evaluate this part
         # Plays a random corner
         random.shuffle(CORNERS)
         for pos in CORNERS:
-            if pos in self.b.available_positions:
+            if pos in self.b.available_moves():
                 return pos
 
         self.number_of_plays += 1

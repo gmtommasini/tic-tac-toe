@@ -1,5 +1,5 @@
 
-
+# TODO :  Include players names
 class ScoreBoard:
     def __init__(self):
         self.p1score = 0
