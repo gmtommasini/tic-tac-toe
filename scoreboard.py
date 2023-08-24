@@ -1,7 +1,12 @@
 
-# TODO :  Include players names
+def format_name(name):
+    return name.upper()[0:10]
+
+
 class ScoreBoard:
-    def __init__(self):
+    def __init__(self, p1_name, p2_name):
+        self.p1_name = format_name(p1_name)
+        self.p2_name = format_name(p2_name)
         self.p1score = 0
         self.p2score = 0
 
@@ -25,15 +30,15 @@ class ScoreBoard:
         """
         if self.p1score == self.p2score:
             return False
-        return "Player 1" if self.p1score > self.p2score else "Player 2"
+        return self.p1_name if self.p1score > self.p2score else self.p2_name
 
     def __str__(self):
         return f"""
         Tic-Tac-Toe Score:
-    Player 1          Player 2
+   {self.p1_name.center(10)}        {self.p2_name.center(10)}
        {self.p1score}                 {self.p2score}"""
 
 
 if __name__ == '__main__':
-    s = ScoreBoard()
+    s = ScoreBoard('p1', "some very long name")
     print(s)
