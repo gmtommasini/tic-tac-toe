@@ -1,9 +1,9 @@
 import copy
-from color import yellow_b, gray_f
+from color import yellow_b, gray_f, cyan_f, pink_f
 
 INITIAL_POSITIONS = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 
-POSITIONS = {
+POSITIONS_DICTIONARY = {
     '1': (0, 0),
     '2': (0, 1),
     '3': (0, 2),
@@ -15,6 +15,7 @@ POSITIONS = {
     '9': (2, 2)
 }
 
+SYMBOLS = ('X', 'O')
 
 class Board:
     def __init__(self):
@@ -31,11 +32,17 @@ class Board:
         self.p1_plays = self.p1_starts
         self.p1_moves: list = []
 
-    def print_position(self, pos):
-        if pos in self.available_positions:
-            return gray_f(pos)
+    def print_position(self, symbol):
+        """symbol can be a int position, or 'X' or 'O'"""
+        if symbol in self.available_positions:
+            return gray_f(symbol)
         else:
-            return pos
+            # NOTE: because of the color I can't make symbol == 'X'
+            # the symbol here contains the colors: "\x1b[34m"...
+            if SYMBOLS[0] in symbol:
+                return cyan_f(symbol)
+            elif SYMBOLS[1] in symbol:
+                return pink_f(symbol)
 
     def print_board(self):
         print(self)
@@ -58,7 +65,7 @@ class Board:
         Make a play for x or o. Return False in case of match not finished, or
         Return 0 for draw, or
         Returns the number of the winning player
-        :param player: 'x' or 'o'
+        :param player: 'X' or 'O'
         :param position: 1-9
         :return: False, 0, 1, or 2
         """
@@ -67,7 +74,7 @@ class Board:
         if position not in self.available_moves():
             return False
 
-        p = POSITIONS[str(position)]
+        p = POSITIONS_DICTIONARY[str(position)]
         self.positions[p[0]][p[1]] = player
         self.available_positions.remove(position)
 
@@ -80,7 +87,7 @@ class Board:
             return -1
 
         # Save moves
-        if player == 'x':
+        if player == SYMBOLS[0]:
             self.p1_moves.append(position)
 
         # Alternating player
@@ -110,10 +117,10 @@ class Board:
 
 if __name__ == '__main__':
     b = Board()
-    b.make_play('x', 1)
-    b.make_play('o', 2)
-    b.make_play('x', 9)
-    b.make_play('o', 4)
-    b.make_play('x', 5)
-    # b.make_a_play('o', 7)
+    b.make_play(SYMBOLS[0], 1)
+    b.make_play(SYMBOLS[1], 2)
+    b.make_play(SYMBOLS[0], 9)
+    b.make_play(SYMBOLS[1], 4)
+    b.make_play(SYMBOLS[0], 5)
+    # b.make_a_play(SYMBOLS[1], 7)
     b.print_board()

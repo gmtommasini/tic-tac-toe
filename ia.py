@@ -1,4 +1,4 @@
-from board import Board
+from board import Board, SYMBOLS
 import random
 
 CORNERS = [1, 3, 7, 9]
@@ -41,9 +41,9 @@ class CPU:
                 return random.choice(CORNERS)
 
         # nth move (if p1 has 2 places in same row/column)
-        if my_win_cond := self.check_win_condition('o'):
+        if my_win_cond := self.check_win_condition(SYMBOLS[1]):
             return my_win_cond
-        if human_win_condition := self.check_win_condition('x'):
+        if human_win_condition := self.check_win_condition(SYMBOLS[0]):
             return human_win_condition
 
         if self.number_of_plays == 2:

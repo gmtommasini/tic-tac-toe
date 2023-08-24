@@ -1,5 +1,5 @@
 import os
-from board import Board
+from board import Board, SYMBOLS
 from scoreboard import ScoreBoard
 from ia import CPU
 
@@ -33,7 +33,7 @@ def run(one_player: bool = True, p1_name='Player 1', p2_name='Player 2'):
     score = ScoreBoard(p1_name, p2_name)
     while True:
         print_screen(b, score)
-        (symbol, player) = ('x', p1_name) if b.p1_plays else ('o', p2_name)
+        (symbol, player) = (SYMBOLS[0], p1_name) if b.p1_plays else (SYMBOLS[1], p2_name)
         if b.p1_plays or not one_player:
             user_input = get_user_input(f"{player}: choose the board position you want to play\n(a number between 1 and 9. 0 to end round): ")
             if user_input == 0:
