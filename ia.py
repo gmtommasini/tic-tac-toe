@@ -22,7 +22,16 @@ class CPU:
         self.number_of_plays = 0
 
     def make_a_play(self) -> int:
+        """
+        This function will make a move based on the board's previous plays
+        :return:
+        """
         self.number_of_plays += 1
+
+        # One in 20 times the AI will make a random play (to increase player's chances)
+        if random.random() < 0.05:
+            return random.choice(self.b.available_moves())
+
         # first move
         if self.number_of_plays == 1:
             if 5 in self.b.available_moves():
@@ -85,7 +94,6 @@ class CPU:
             if pos in self.b.available_moves():
                 return pos
 
-        self.number_of_plays += 1
 
     def check_win_condition(self, player) -> int:
         """
@@ -129,5 +137,6 @@ class CPU:
 
 if __name__ == '__main__':
     b = Board()
-    cpu = CPU(b)
+    c = CPU(b)
     b.print_board()
+    c.make_a_play()
