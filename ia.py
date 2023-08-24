@@ -14,9 +14,10 @@ def is_empty(var):
 
 
 class CPU:
-    def __init__(self, board: Board):
+    def __init__(self, board: Board, level: int = 9):
         self.b = board
         self.number_of_plays = 0
+        self.level = level/10
 
     def reset(self):
         self.number_of_plays = 0
@@ -24,12 +25,12 @@ class CPU:
     def make_a_play(self) -> int:
         """
         This function will make a move based on the board's previous plays
-        :return:
+        :return: The position to play
         """
         self.number_of_plays += 1
 
-        # One in 20 times the AI will make a random play (to increase player's chances)
-        if random.random() < 0.05:
+        # Sometimes the AI will make a random play (to increase player's chances)
+        if random.random() > self.level:
             return random.choice(self.b.available_moves())
 
         # first move
